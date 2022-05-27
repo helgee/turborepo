@@ -80,20 +80,6 @@ func ParseAndValidate(args []string, fsys afero.Fs, ui cli.Ui, turboVersion stri
 		args = append(args, "--help")
 	}
 
-	// Pop the subcommand into 'cmd'
-	// flags.Parse does not work when the subcommand is included
-	cmd, inputFlags := args[0], args[1:]
-
-	// Special check for help commands
-	// command is ./turbo --help or --version
-	if len(inputFlags) == 0 && (cmd == "help" || cmd == "--help" || cmd == "-help" || cmd == "version" || cmd == "--version" || cmd == "-version") {
-		return nil, nil
-	}
-	// command is ./turbo $subcommand --help
-	if len(inputFlags) == 1 && (inputFlags[0] == "help" || inputFlags[0] == "--help" || inputFlags[0] == "-help") {
-		return nil, nil
-	}
-
 	cwd, err := selectCwd(args)
 	if err != nil {
 		return nil, err
